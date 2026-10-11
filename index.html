@@ -1056,6 +1056,9 @@
           <button class="btn btn-outline" onclick="switchMainTab('banco')">
             ⬅️ Voltar ao Banco
           </button>
+          <button class="btn btn-outline" onclick="reembaralharSimulado()" title="Sorteia uma nova ordem de alternativas para todas as questões do simulado">
+            🔀 Embaralhar de novo
+          </button>
           <button class="btn btn-primary" onclick="exportToWord()">
             📥 Baixar para Word (.doc)
           </button>
@@ -1176,6 +1179,35 @@
 
     let currentSerie = '9º Ano';
     let currentImageFilter = 'todas';
+
+    // Ordem embaralhada das alternativas de cada questão do simulado (uid -> letras originais na ordem exibida).
+    // Fica fixa até "Embaralhar de novo" para que tela, impressão, Word e gabarito coincidam.
+    const LETRAS = ['A','B','C','D','E'];
+    const ordemAlternativas = {};
+
+    function embaralharQuestao(uid) {
+      const ordem = [...LETRAS];
+      for (let i = ordem.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+      }
+      ordemAlternativas[uid] = ordem;
+    }
+
+    // Retorna as alternativas na ordem do simulado e a letra correta correspondente.
+    function alternativasDoSimulado(q) {
+      if (!ordemAlternativas[q.uid]) embaralharQuestao(q.uid);
+      const ordem = ordemAlternativas[q.uid];
+      return {
+        alternativas: ordem.map((original, i) => ({ letra: LETRAS[i], texto: q.alternativas[original] })),
+        correta: LETRAS[ordem.indexOf(q.resposta_correta)]
+      };
+    }
+
+    function reembaralharSimulado() {
+      selectedUids.forEach(uid => embaralharQuestao(uid));
+      renderSimulado();
+    }
 
     function setImageFilter(mode) {
       currentImageFilter = mode;
@@ -1553,6 +1585,7 @@
 
       selectedList.forEach((q, idx) => {
         const num = idx + 1;
+        const sim = alternativasDoSimulado(q);
 
         qHtml += `
           <div class="sim-q-item">
@@ -1568,15 +1601,15 @@
               </div>
             ` : ''}
             <div class="sim-q-alts">
-              ${['A','B','C','D','E'].map(letra => `
+              ${sim.alternativas.map(alt => `
                 <div class="sim-alt-item">
-                  <span class="sim-alt-letra">(${letra})</span>
-                  <span class="sim-alt-text">${q.alternativas[letra]}</span>
+                  <span class="sim-alt-letra">(${alt.letra})</span>
+                  <span class="sim-alt-text">${alt.texto}</span>
                 </div>
               `).join('')}
             </div>
             <div class="sim-q-gabarito-tag">
-              <strong>[Gabarito: Letra ${q.resposta_correta}]</strong> — ${q.justificativa}
+              <strong>[Gabarito: Letra ${sim.correta}]</strong> — ${q.justificativa}
             </div>
           </div>
         `;
@@ -1594,7 +1627,7 @@
         profHtml += `
           <tr>
             <td style="font-weight:700; text-align:center;">${num}</td>
-            <td style="font-weight:800; text-align:center; color:#1e3a8a;">${q.resposta_correta}</td>
+            <td style="font-weight:800; text-align:center; color:#1e3a8a;">${sim.correta}</td>
             <td style="font-weight:600; text-align:center;">${q.serie}</td>
             <td><strong>${q.modulo.split(':')[0]}:</strong> ${q.tema}</td>
             <td>${q.dificuldade}</td>
@@ -1820,6 +1853,7 @@
 
       selectedList.forEach((q, idx) => {
         const num = idx + 1;
+        const sim = alternativasDoSimulado(q);
         docContent += `
           <div class="q-box">
             <p>
@@ -1833,11 +1867,11 @@
                 <p style="font-size: 8pt; color: #475569; font-style: italic; margin-top: 2pt;">${q.imagem.legenda}</p>
               </div>
             ` : ''}
-            ${['A','B','C','D','E'].map(l => `
-              <div class="alt-item"><strong>(${l})</strong> ${q.alternativas[l]}</div>
+            ${sim.alternativas.map(alt => `
+              <div class="alt-item"><strong>(${alt.letra})</strong> ${alt.texto}</div>
             `).join('')}
             ${includeAnswers ? `
-              <div class="gabarito-tag"><strong>[Gabarito: (${q.resposta_correta})]</strong> ${q.justificativa}</div>
+              <div class="gabarito-tag"><strong>[Gabarito: (${sim.correta})]</strong> ${q.justificativa}</div>
             ` : ''}
           </div>
         `;
@@ -1906,7 +1940,7 @@
               ${selectedList.map((q, idx) => `
                 <tr style="${idx % 2 === 1 ? 'background-color: #f8fafc;' : ''}">
                   <td style="text-align: center; font-weight: bold;">${idx + 1}</td>
-                  <td style="text-align: center; font-weight: bold; color: #1e3a8a;">${q.resposta_correta}</td>
+                  <td style="text-align: center; font-weight: bold; color: #1e3a8a;">${alternativasDoSimulado(q).correta}</td>
                   <td style="text-align: center;">${q.serie}</td>
                   <td><strong>${q.modulo.split(':')[0]}:</strong> ${q.tema}</td>
                   <td style="text-align: center;">${q.dificuldade}</td>
