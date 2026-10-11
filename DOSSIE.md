@@ -80,12 +80,12 @@ Prioridade sugerida: **A** (alta), **M** (média), **B** (baixa). Nenhuma foi ap
 |----|-------|-------|-------------|
 | I-01 | A | Revisar as alternativas erradas para equilibrar o tamanho em relação à correta | Problema 2. Dá para listar primeiro as questões mais desbalanceadas. |
 | I-02 | A | **Código da prova** (ex.: `Prova 7K3F`) impresso no cabeçalho, que permite regenerar exatamente a mesma ordem e o mesmo gabarito depois | Resolve o problema 3; base para as versões A/B. |
-| I-03 | A | Simulado automático com **sorteio** das questões, mantendo a distribuição por módulo e dificuldade | Problema 4. |
+| I-03 | A | Simulado automático com **sorteio** das questões, mantendo a distribuição por módulo e dificuldade e uma cota de cerca de 30% de questões com imagem | Problema 4. A cota de imagens era um objetivo do projeto original, mas o código atual não a aplica. |
 | I-04 | A | **Correção assistida:** digitar ou colar as respostas de cada aluno e calcular nota, acertos por aluno e por questão | Liga com o uso descrito pelo Augusto (comparar respostas com o gabarito). |
 | I-05 | M | Versões A/B/C da mesma prova (ordem das questões e das alternativas diferentes) | Depende de I-02. |
 | I-06 | M | Salvar a seleção e simulados prontos no navegador, para não perder o trabalho ao recarregar | Hoje a seleção some ao recarregar. |
 | I-07 | M | Campos editáveis para bimestre, ano e data no cabeçalho e na folha de respostas | Problema 5. |
-| I-08 | M | Busca por palavra e filtro por tema | |
+| I-08 | M | Filtro por tema (a busca por palavra no enunciado, tema e alternativas **já existe**) | Correção: a versão anterior desta linha listava a busca como ideia nova. |
 | I-09 | M | Marcar questões como "revisar" ou "problema" durante o uso | Alimenta I-01. |
 | I-10 | B | Separar os dados e as imagens do código (arquivos próprios) | Deixa a página mais leve e facilita editar questões. |
 | I-11 | B | Publicar no GitHub Pages (link para os professores abrirem) | |
