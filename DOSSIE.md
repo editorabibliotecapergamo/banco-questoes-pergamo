@@ -28,6 +28,16 @@ mudar, a antiga fica riscada com o motivo.
   será usado para **comparar as respostas dos alunos** (conferência feita pelo professor).
 - Por isso, a ordem das alternativas na prova e a letra do gabarito têm de coincidir sempre.
 
+## 2.1 Regras de proteção (conteúdo de terceiros)
+
+- **O repositório é público** (confirmado em 2026-10-11). O material didático do colégio é da **Objetivo**,
+  protegido por direitos autorais.
+- **Nunca colocar no repositório** nenhum arquivo, texto, imagem ou trecho do material da Objetivo
+  (PDFs, apostilas, exercícios, figuras). Esse material, se enviado, fica apenas na área privada do projeto, fora do repositório.
+- Só entram no repositório questões **escritas de forma original**, a partir dos tópicos do currículo,
+  sem copiar enunciados, alternativas, figuras ou paráfrases próximas do material.
+- Pendente: o Augusto decidir se torna o repositório privado e se o banco atual (1.000 questões) foi baseado no material da Objetivo.
+
 ## 3. Decisões tomadas
 
 | Data | Decisão | Observações |
@@ -80,7 +90,7 @@ Prioridade sugerida: **A** (alta), **M** (média), **B** (baixa). Nenhuma foi ap
 | I-10 | B | Separar os dados e as imagens do código (arquivos próprios) | Deixa a página mais leve e facilita editar questões. |
 | I-11 | B | Publicar no GitHub Pages (link para os professores abrirem) | |
 | I-12 | B | README com instruções de uso | |
-| I-13 | A (longo prazo) | **Super banco de questões:** todas as matérias, um ano inteiro de conteúdo, embasado em material didático escolar | Hoje: 1.000 questões = cerca de 9,8 MB, sendo 1,2 MB de texto e 8,6 MB de imagens (cerca de 37 KB por imagem). Em escala (dezenas de milhares de questões) não cabe em um `index.html`: precisa de dados em arquivos separados por matéria e série (carregados sob demanda) e imagens em arquivos próprios (depende de I-10). Qualidade: precisa de roteiro de conteúdo por matéria (currículo/BNCC e o material do colégio), checagens automáticas (equilíbrio do gabarito, tamanho das alternativas, duplicatas, estrutura) e revisão por professor, em amostra, antes de liberar cada lote. Direitos autorais: usar o material próprio do colégio e a BNCC como base; não copiar livros de editoras. |
+| I-13 | A (longo prazo) | **Super banco de questões:** todas as matérias, um ano inteiro de conteúdo, embasado em material didático escolar | Hoje: 1.000 questões = cerca de 9,8 MB, sendo 1,2 MB de texto e 8,6 MB de imagens (cerca de 37 KB por imagem). Em escala (dezenas de milhares de questões) não cabe em um `index.html`: precisa de dados em arquivos separados por matéria e série (carregados sob demanda) e imagens em arquivos próprios (depende de I-10). Qualidade: precisa de roteiro de conteúdo por matéria (currículo/BNCC e o material do colégio), checagens automáticas (equilíbrio do gabarito, tamanho das alternativas, duplicatas, estrutura) e revisão por professor, em amostra, antes de liberar cada lote. Direitos autorais: ver seção 2.1 (material da Objetivo não entra no repositório público). |
 
 ## 7. Histórico
 
