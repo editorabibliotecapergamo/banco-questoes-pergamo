@@ -39,6 +39,7 @@ mudar, a antiga fica riscada com o motivo.
 
 - A segunda ideia que o Augusto mencionou ("pensei em duas coisas") ainda não foi dita. **Perguntar de novo.**
 - Quais das sugestões do banco de ideias (seção 6) entram e em que ordem.
+- **Expansão para todas as matérias e um ano inteiro de conteúdo** (pedido do Augusto em 2026-10-11, ideia I-13). Avaliada como viável, mas exige mudar a arquitetura (ver I-13). Aguardando as respostas do Augusto: quais matérias e séries, e qual material didático servirá de base.
 
 ## 5. Problemas conhecidos
 
@@ -79,6 +80,7 @@ Prioridade sugerida: **A** (alta), **M** (média), **B** (baixa). Nenhuma foi ap
 | I-10 | B | Separar os dados e as imagens do código (arquivos próprios) | Deixa a página mais leve e facilita editar questões. |
 | I-11 | B | Publicar no GitHub Pages (link para os professores abrirem) | |
 | I-12 | B | README com instruções de uso | |
+| I-13 | A (longo prazo) | **Super banco de questões:** todas as matérias, um ano inteiro de conteúdo, embasado em material didático escolar | Hoje: 1.000 questões = cerca de 9,8 MB, sendo 1,2 MB de texto e 8,6 MB de imagens (cerca de 37 KB por imagem). Em escala (dezenas de milhares de questões) não cabe em um `index.html`: precisa de dados em arquivos separados por matéria e série (carregados sob demanda) e imagens em arquivos próprios (depende de I-10). Qualidade: precisa de roteiro de conteúdo por matéria (currículo/BNCC e o material do colégio), checagens automáticas (equilíbrio do gabarito, tamanho das alternativas, duplicatas, estrutura) e revisão por professor, em amostra, antes de liberar cada lote. Direitos autorais: usar o material próprio do colégio e a BNCC como base; não copiar livros de editoras. |
 
 ## 7. Histórico
 
