@@ -14,10 +14,12 @@ mudar, a antiga fica riscada com o motivo.
 
 ## 1. O projeto em poucas linhas
 
-- Arquivo único `index.html` (HTML, CSS e JavaScript puros, sem bibliotecas nem servidor).
+- Portal em HTML, CSS e JavaScript puros (`index.html`), sem bibliotecas nem servidor.
 - 1.000 questões de Ciências, 250 por série (6º ao 9º ano), em 17 módulos, com 5 alternativas (A a E).
-- 229 questões têm imagem embutida (PNG em base64), o que deixa o arquivo com cerca de 10 MB.
-- As questões ficam em `const BANCO_COMPLETO = [...]`, em uma única linha do `index.html`.
+- Desde o esqueleto multi-matéria (2026-10-11), os dados ficam fora do código: `dados/catalogo.js` (matérias) e
+  `dados/<matéria>/<série>.js` (questões) com `<série>.imagens.js` (ilustrações em base64), carregados sob demanda.
+  Formato e como acrescentar matérias: `docs/ESTRUTURA.md`. Validação: `python3 scripts/validar_banco.py`.
+- 229 questões têm imagem.
 - Funções: filtros (série, módulo, dificuldade, imagem), simulado de até 40 questões
   (manual ou automático), visualização em formato de prova, gabarito do professor,
   cartão-resposta, exportação para Word e impressão.
@@ -45,11 +47,14 @@ mudar, a antiga fica riscada com o motivo.
 | 2026-10-11 | As alternativas são **embaralhadas ao levar as questões para a aba "Visualizar Simulado"**. O banco de questões continua mostrando a ordem original. | Implementado no PR #1 (já incorporado). |
 | 2026-10-11 | A ordem embaralhada **fica fixa** enquanto a página estiver aberta, e vale para tela, impressão, Word e gabarito. | O botão "🔀 Embaralhar de novo" sorteia outra ordem para todo o simulado. |
 
+| 2026-10-11 | **Banco de dados externo fica para depois.** Vamos construir passo a passo, só com arquivos no repositório, e o Augusto decide quando migrar e disponibilizar tudo. | Para não perder tempo se o caminho não funcionar. |
+| 2026-10-11 | **Esqueleto multi-matéria:** dados separados do código, por matéria e série, com catálogo de matérias. Substitui a regra antiga de "arquivo único". | As imagens continuam em base64, mas em arquivos `.imagens.js` por série, para o portal abrir direto do computador e embutir as figuras no Word. |
+
 ## 4. Em estudo / aguardando resposta do Augusto
 
 - A segunda ideia que o Augusto mencionou ("pensei em duas coisas") ainda não foi dita. **Perguntar de novo.**
 - Quais das sugestões do banco de ideias (seção 6) entram e em que ordem.
-- **Expansão para todas as matérias e um ano inteiro de conteúdo** (pedido do Augusto em 2026-10-11, ideia I-13). Avaliada como viável, mas exige mudar a arquitetura (ver I-13). Aguardando as respostas do Augusto: quais matérias e séries, e qual material didático servirá de base.
+- **Expansão para todas as matérias e um ano inteiro de conteúdo** (pedido do Augusto em 2026-10-11, ideia I-13). Avaliada como viável, mas exige mudar a arquitetura (ver I-13). Passos planejados: (1) esqueleto de dados, feito; (2) seletor de matéria e módulos/simulado automático gerados a partir dos dados, em vez de listas fixas de Ciências; (3) primeira matéria nova em uma série, com validação; (4) demais séries e matérias, lote a lote. Aguardando o Augusto: qual matéria e série vêm primeiro, e qual material didático servirá de base (ver seção 2.1).
 
 ## 5. Problemas conhecidos
 
@@ -65,7 +70,8 @@ mudar, a antiga fica riscada com o motivo.
    de cada dificuldade em cada módulo (`slice(0, n)`), sem sorteio. (Ver ideia I-03.)
 5. **"4º BIMESTRE DE 2026" está fixo no texto** do cabeçalho e da folha de respostas (a turma
    já é editável na tela). (Ver ideia I-07.)
-6. O arquivo tem cerca de 10 MB por causa das imagens embutidas, o que deixa a abertura mais lenta.
+6. ~~O arquivo tinha cerca de 10 MB por causa das imagens embutidas.~~ *Resolvido pelo esqueleto: o `index.html` tem cerca de 70 KB e cada série é carregada só quando usada.*
+7. Partes do código ainda são específicas de Ciências: listas fixas de módulos (filtro de módulo e simulado automático), textos de turma e contagens nos botões de série. Precisam ser derivadas dos dados antes de liberar a segunda matéria (passo 2 do I-13).
 
 Verificações já feitas nos dados (2026-10-11): nenhum enunciado duplicado; códigos `uid`
 únicos; todo gabarito aponta para uma alternativa existente; **nenhuma justificativa,
@@ -87,11 +93,12 @@ Prioridade sugerida: **A** (alta), **M** (média), **B** (baixa). Nenhuma foi ap
 | I-07 | M | Campos editáveis para bimestre, ano e data no cabeçalho e na folha de respostas | Problema 5. |
 | I-08 | M | Filtro por tema (a busca por palavra no enunciado, tema e alternativas **já existe**) | Correção: a versão anterior desta linha listava a busca como ideia nova. |
 | I-09 | M | Marcar questões como "revisar" ou "problema" durante o uso | Alimenta I-01. |
-| I-10 | B | Separar os dados e as imagens do código (arquivos próprios) | Deixa a página mais leve e facilita editar questões. |
+| I-10 | B | Separar os dados e as imagens do código (arquivos próprios) | **Feito em 2026-10-11 (esqueleto).** Falta só, se um dia compensar, trocar o base64 por arquivos PNG. |
 | I-11 | B | Publicar no GitHub Pages (link para os professores abrirem) | |
 | I-12 | B | README com instruções de uso | |
-| I-13 | A (longo prazo) | **Super banco de questões:** todas as matérias, um ano inteiro de conteúdo, embasado em material didático escolar | Hoje: 1.000 questões = cerca de 9,8 MB, sendo 1,2 MB de texto e 8,6 MB de imagens (cerca de 37 KB por imagem). Em escala (dezenas de milhares de questões) não cabe em um `index.html`: precisa de dados em arquivos separados por matéria e série (carregados sob demanda) e imagens em arquivos próprios (depende de I-10). Qualidade: precisa de roteiro de conteúdo por matéria (currículo/BNCC e o material do colégio), checagens automáticas (equilíbrio do gabarito, tamanho das alternativas, duplicatas, estrutura) e revisão por professor, em amostra, antes de liberar cada lote. Direitos autorais: ver seção 2.1 (material da Objetivo não entra no repositório público). |
+| I-13 | A (longo prazo) | **Super banco de questões:** todas as matérias, um ano inteiro de conteúdo, embasado em material didático escolar | Hoje: 1.000 questões = cerca de 9,8 MB, sendo 1,2 MB de texto e 8,6 MB de imagens (cerca de 37 KB por imagem). Em escala (dezenas de milhares de questões) não cabe em um `index.html`: precisa de dados em arquivos separados por matéria e série (carregados sob demanda) e imagens em arquivos próprios (esqueleto feito, ver I-10). Qualidade: precisa de roteiro de conteúdo por matéria (currículo/BNCC e o material do colégio), checagens automáticas (equilíbrio do gabarito, tamanho das alternativas, duplicatas, estrutura) e revisão por professor, em amostra, antes de liberar cada lote. Direitos autorais: ver seção 2.1 (material da Objetivo não entra no repositório público). |
 
 ## 7. Histórico
 
+- 2026-10-11 — Esqueleto multi-matéria (dados e imagens separados do código, catálogo de matérias, script de validação e `docs/ESTRUTURA.md`).
 - 2026-10-11 — Primeira análise do repositório; criado este dossiê; embaralhamento das alternativas implementado (PR #1).
